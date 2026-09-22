@@ -29,8 +29,15 @@ export default async function handler(req, res) {
     }
 
     if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SECRET_KEY) {
-      throw new Error("Supabase environment variables are not configured.");
+  return res.status(500).json({
+    success: false,
+    message: "Environment variable missing",
+    debug: {
+      supabase_url: !!process.env.SUPABASE_URL,
+      supabase_secret_key: !!process.env.SUPABASE_SECRET_KEY
     }
+  });
+}
 
     const registration = {
       name: String(name).trim().slice(0, 100),
