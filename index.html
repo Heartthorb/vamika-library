@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vamika Library & Self Study Center | Ultra Premium Library</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- AOS Animation (Optional) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --vamika-blue: #0d47a1;
+            --vamika-yellow: #ffc107;
+            --vamika-light: #f5f8ff;
+            --vamika-dark: #0a1740;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--vamika-light);
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(9, 33, 80, 0.98);
+        }
+        .navbar-brand span.logo-text {
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+        .navbar-brand .logo-badge {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--vamika-yellow);
+            color: var(--vamika-dark);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            margin-right: 10px;
+        }
+        .nav-link {
+            color: #f8f9ff !important;
+            font-weight: 500;
+            position: relative;
+        }
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background: var(--vamika-yellow);
+            transition: width 0.25s ease;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Hero */
+        #hero {
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, #1a73e8 0, #0a1740 40%, #020617 100%);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+        .hero-tagline {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            font-size: 14px;
+        }
+        .hero-tagline span.badge {
+            background: var(--vamika-yellow);
+            color: #000;
+            margin-right: 8px;
+        }
+        .hero-heading {
+            font-size: clamp(2.6rem, 4vw, 3.4rem);
+            font-weight: 800;
+            letter-spacing: 0.12em;
+        }
+        .hero-subheading {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.32em;
+            color: #b3c6ff;
+        }
+        .hero-highlight {
+            color: var(--vamika-yellow);
+        }
+        .hero-cta {
+            padding: 12px 30px;
+            border-radius: 999px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+        .hero-cta-secondary {
+            border-radius: 999px;
+        }
+        .hero-metrics {
+            font-size: 0.9rem;
+            color: #dbe4ff;
+        }
+        .hero-metrics strong {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+        .hero-card {
+            background: rgba(6, 12, 40, 0.9);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .hero-slot-badge {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+        }
+        .hero-pill {
+            background: rgba(255,255,255,0.08);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+        }
+
+        /* Slider dots (manual) */
+        .mini-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        .mini-slide {
+            min-height: 140px;
+            display: none;
+            padding: 18px;
+        }
+        .mini-slide.active {
+            display: block;
+        }
+        .mini-slider-controls {
+            position: absolute;
+            bottom: 10px;
+            right: 14px;
+            display: flex;
+            gap: 6px;
+        }
+        .mini-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+        }
+        .mini-dot.active {
+            background: var(--vamika-yellow);
+            width: 18px;
+        }
+
+        /* Section spacing */
+        section {
+            padding-top: 80px;
+            padding-bottom: 80px;
+        }
+        section:nth-of-type(even) {
+            background: #ffffff;
+        }
+        section:nth-of-type(odd) {
+            background: var(--vamika-light);
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--vamika-dark);
+        }
+        .section-subtitle {
+            color: #6c757d;
+            max-width: 560px;
+        }
+
+        /* About */
+        .about-badge {
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 0.75rem;
+            color: var(--vamika-blue);
+        }
+
+        /* Facilities */
+        .facility-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 24px 22px;
+            height: 100%;
+            border: 1px solid #e7ecff;
+            box-shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+        .facility-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.14);
+            border-color: rgba(13,71,161,0.25);
+        }
+        .facility-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13, 71, 161, 0.08);
+            color: var(--vamika-blue);
+            margin-bottom: 14px;
+            font-size: 20px;
+        }
+        .facility-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .facility-text {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Seat availability */
+        .seat-card {
+            border-radius: 18px;
+            border: 1px solid rgba(13,71,161,0.18);
+            background: linear-gradient(135deg, #0d47a1, #1a73e8);
+            color: #ffffff;
+            box-shadow: 0 18px 40px rgba(13,71,161,0.5);
+        }
+        .seat-pill {
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.14);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+        }
+        .seat-badge-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            margin-right: 6px;
+        }
+        .seat-status {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        /* Registration form */
+        .form-card {
+            border-radius: 20px;
+            border: 1px solid #edf0ff;
+            box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+            background: #ffffff;
+        }
+        .form-control,
+        .form-select {
+            border-radius: 12px;
+            border-color: #d0d7ff;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--vamika-blue);
+            box-shadow: 0 0 0 0.15rem rgba(13, 71, 161, 0.2);
+        }
+
+        /* Contact */
+        .contact-info-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13, 71, 161, 0.08);
+            color: var(--vamika-blue);
+            margin-right: 10px;
+        }
+        .map-wrapper iframe {
+            border: 0;
+            border-radius: 18px;
+            width: 100%;
+            min-height: 260px;
+        }
+
+        /* Footer */
+        footer {
+            background: #020617;
+            color: #94a3b8;
+            padding-top: 28px;
+            padding-bottom: 20px;
+        }
+        .footer-brand {
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .social-link {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(148,163,184,0.4);
+            color: #cbd5f5;
+            transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+        }
+        .social-link:hover {
+            background: var(--vamika-yellow);
+            color: #020617;
+            border-color: var(--vamika-yellow);
+        }
+
+        /* WhatsApp floating button */
+        .whatsapp-float {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 999;
+        }
+        .whatsapp-float a {
+            width: 54px;
+            height: 54px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #25d366;
+            color: #ffffff;
+            font-size: 26px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .whatsapp-float a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+            color: #ffffff;
+        }
+
+        /* Small adjustments */
+        @media (max-width: 991.98px) {
+            #hero {
+                text-align: center;
+            }
+            .hero-card {
+                margin-top: 32px;
+            }
+            .hero-metrics {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- WhatsApp Floating Button -->
+<div class="whatsapp-float">
+    <a href="https://wa.me/917979095257" target="_blank" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#hero">
+            <div class="logo-badge">V</div>
+            <span class="logo-text">Vamika Library</span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav gap-lg-3 mt-3 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#hero">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#facilities">Facilities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+                <li class="nav-item ms-lg-2">
+                    <a class="btn btn-warning btn-sm fw-semibold px-3" href="#registration">Book Seat</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Left content -->
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="hero-tagline mb-3">
+                    <span class="badge text-dark me-1">New</span>
+                    Ultra Premium Self Study Center in Hajipur
+                </div>
+                <div class="hero-subheading mb-2">SELF STUDY CENTER</div>
+                <h1 class="hero-heading mb-3">VAMIKA <span class="hero-highlight">LIBRARY</span></h1>
+                <p class="lead text-light mb-4">
+                    A **peaceful** and focused study space with premium seating, AC environment, high‑speed Wi‑Fi,
+                    and CCTV secured campus for serious aspirants.
+                </p>
+                <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
+                    <a href="#registration" class="btn btn-warning hero-cta text-dark">
+                        Join Now / Book Seat
+                    </a>
+                    <a href="#facilities" class="btn btn-outline-light hero-cta-secondary">
+                        View Facilities
+                    </a>
+                </div>
+                <div class="d-flex flex-wrap gap-4 hero-metrics">
+                    <div>
+                        <strong>Peaceful</strong><br>Dedicated silent study zone
+                    </div>
+                    <div>
+                        <strong>AC Library</strong><br>Comfortable all‑day sitting
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right card / slider -->
+            <div class="col-lg-6 mt-5 mt-lg-0" data-aos="fade-left">
+                <div class="hero-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="hero-slot-badge text-uppercase text-warning">Ultra Premium Library</span>
+                        <span class="hero-pill text-light">
+                            <i class="fa-regular fa-clock me-1"></i> Morning & Evening Slots
+                        </span>
+                    </div>
+                    <h5 class="mb-1">Vamika Library &amp; Self Study Center</h5>
+                    <p class="text-muted mb-3 small">
+                        3rd Floor, Old Canara Bank Campus, Kachhari Road, Hajipur (Vaishali)
+                    </p>
+
+                    <!-- Mini slider (auto + manual) -->
+                    <div class="mini-slider bg-gradient">
+                        <div class="mini-slide active" id="slide-1">
+                            <h6 class="text-warning mb-1">
+                                <i class="fa-solid fa-moon-stars me-2"></i>Peaceful Environment
+                            </h6>
+                            <p class="small mb-1 text-light">
+                                Fully AC, silent & distraction‑free study area designed to maximize your focus and productivity.
+                            </p>
+                        </div>
+                        <div class="mini-slide" id="slide-2">
+                            <h6 class="text-warning mb-1">
+                                <i class="fa-solid fa-wifi me-2"></i>High‑Speed Wi‑Fi
+                            </h6>
+                            <p class="small mb-1 text-light">
+                                Seamless internet connectivity for online lectures, test series, and digital notes.
+                            </p>
+                        </div>
+                        <div class="mini-slide" id="slide-3">
+                            <h6 class="text-warning mb-1">
+                                <i class="fa-solid fa-video me-2"></i>CCTV Secured Campus
+                            </h6>
+                            <p class="small mb-1 text-light">
+                                CCTV surveillance and monitored entry to ensure a safe and secure study environment.
+                            </p>
+                        </div>
+                        <div class="mini-slider-controls">
+                            <div class="mini-dot active" data-target="1"></div>
+                            <div class="mini-dot" data-target="2"></div>
+                            <div class="mini-dot" data-target="3"></div>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <div class="seat-status me-4">
+                            <span class="seat-badge-dot bg-success"></span> Seats Available
+                        </div>
+                        <div class="seat-status">
+                            <span class="seat-badge-dot bg-danger"></span> Limited Premium Seats
+                        </div>
+                    </div>
+
+                    <div class="mt-3 d-flex justify-content-between align-items-center">
+                        <div class="small text-muted">
+                            Have questions? Call / WhatsApp<br>
+                            <span class="fw-semibold text-warning">+91 79790 95257</span>
+                        </div>
+                        <a href="#registration" class="btn btn-outline-warning btn-sm">
+                            Book Your Seat
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6" data-aos="fade-right">
+                <div class="about-badge mb-2">About Vamika Library</div>
+                <h2 class="section-title mb-3">Peaceful space for serious learners</h2>
+                <p class="section-subtitle mb-3">
+                    Vamika Library &amp; Self Study Center is built specially for dedicated students preparing for
+                    competitive exams, college studies, and professional courses. We focus on a calm, disciplined and
+                    distraction‑free environment so you can study longer with higher concentration.
+                </p>
+                <p class="mb-3">
+                    With fully air‑conditioned halls, premium ergonomic seating, high‑speed Wi‑Fi, CCTV surveillance,
+                    and RO purified cold water, every detail is designed to support your productivity throughout the day.
+                </p>
+                <ul class="list-unstyled small mb-0">
+                    <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Silent study atmosphere</li>
+                    <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Comfortable long‑hour sitting</li>
+                    <li class="mb-1"><i class="fa-solid fa-check text-success me-2"></i>Ideal for UPSC, BPSC, SSC, Banking & other exams</li>
+                </ul>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <div class="seat-card p-4 p-md-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="seat-pill"><i class="fa-solid fa-chair me-2"></i>Seat Availability Overview</span>
+                        <span class="small text-light-50">Real‑time status (UI sample)</span>
+                    </div>
+                    <div class="row text-center gy-3">
+                        <div class="col-6">
+                            <div class="mb-1 text-uppercase small text-light-50">Total Seats</div>
+                            <div class="fs-3 fw-bold">60</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="mb-1 text-uppercase small text-light-50">Available</div>
+                            <div class="fs-3 fw-bold text-warning" id="availableSeats">18</div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="mb-1 small text-uppercase text-light-50">Premium Seats</div>
+                            <div class="fw-semibold">24</div>
+                            <div class="small text-warning">Few left</div>
+                        </div>
+                        <div class="col-6 mt-3">
+                            <div class="mb-1 small text-uppercase text-light-50">Regular Seats</div>
+                            <div class="fw-semibold">36</div>
+                            <div class="small text-success">Good availability</div>
+                        </div>
+                    </div>
+                    <hr class="border border-light border-opacity-25 my-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                        <div class="small">
+                            Book early to lock your preferred time slot and seat type.
+                        </div>
+                        <button class="btn btn-warning btn-sm mt-2 mt-md-0" onclick="document.getElementById('registration').scrollIntoView({behavior:'smooth'})">
+                            Check Slots &amp; Register
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Facilities Section -->
+<section id="facilities">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Facilities at Vamika Library</h2>
+            <p class="section-subtitle mx-auto">
+                Everything you need for a productive study routine, under one roof.
+            </p>
+        </div>
+        <div class="row g-4">
+            <!-- Parking (CCTV Secured) -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up">
+                <div class="facility-card h-100">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-square-parking"></i>
+                    </div>
+                    <div class="facility-title">Parking (CCTV Secured)</div>
+                    <div class="facility-text">
+                        Safe parking space with CCTV coverage so you can focus only on your studies.
+                    </div>
+                </div>
+            </div>
+            <!-- Fully Air Conditioned -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="50">
+                <div class="facility-card h-100">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-snowflake"></i>
+                    </div>
+                    <div class="facility-title">Fully Air Conditioned</div>
+                    <div class="facility-text">
+                        Cool and comfortable environment for long study hours in all seasons.
+                    </div>
+                </div>
+            </div>
+            <!-- Peaceful Environment -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="facility-card h-100">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-peace"></i>
+                    </div>
+                    <div class="facility-title">Peaceful Environment</div>
+                    <div class="facility-text">
+                        Strict discipline and quiet study hall to maintain complete silence.
+                    </div>
+                </div>
+            </div>
+            <!-- Premium Seat Available -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="150">
+                <div class="facility-card h-100">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-chair"></i>
+                    </div>
+                    <div class="facility-title">Premium Seat Available</div>
+                    <div class="facility-text">
+                        Ergonomic chairs and spacious desks designed for comfort & focus.
+                    </div>
+                </div>
+            </div>
+            <!-- High-Speed Wi-Fi -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up">
+                <div class="facility-card h-100">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-wifi"></i>
+                    </div>
+                    <div class="facility-title">High-Speed Wi‑Fi</div>
+                    <div class="facility-text">
+                        Reliable internet for online classes, mock tests and digital notes.
+                    </div>
+                </div>
+            </div>
+            <!-- Cold Water (RO Purified) -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="50">
+                <div class="facility-card h-100">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <div class="facility-title">Cold Water (RO Purified)</div>
+                    <div class="facility-text">
+                        RO purified cold drinking water available throughout the day.
+                    </div>
+                </div>
+            </div>
+            <!-- Newspaper (Hindi & English) -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                <div class="facility-card h-100">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-newspaper"></i>
+                    </div>
+                    <div class="facility-title">Newspaper (Hindi &amp; English)</div>
+                    <div class="facility-text">
+                        Daily newspapers to keep you updated for current affairs and exams.
+                    </div>
+                </div>
+            </div>
+            <!-- CCTV Surveillance -->
+            <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="150">
+                <div class="facility-card h-100">
+                    <div class="facility-icon">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+                    <div class="facility-title">CCTV Surveillance</div>
+                    <div class="facility-text">
+                        Complete CCTV coverage for a secure and disciplined environment.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Seat Availability + Registration Form Section -->
+<section id="registration">
+    <div class="container">
+        <div class="row g-5 align-items-start">
+            <!-- Seat availability (UI / can be dynamic) -->
+            <div class="col-lg-5" data-aos="fade-right">
+                <h2 class="section-title mb-2">Seat Availability</h2>
+                <p class="section-subtitle mb-3">
+                    Current status is for demo only. You can connect this to your backend or admin panel to show live availability.
+                </p>
+                <div class="mb-3 small">
+                    <span class="badge rounded-pill text-bg-success me-2">
+                        <span class="me-1 bg-success rounded-circle d-inline-block" style="width:8px;height:8px;"></span>
+                        Available
+                    </span>
+                    <span class="badge rounded-pill text-bg-danger">
+                        <span class="me-1 bg-danger rounded-circle d-inline-block" style="width:8px;height:8px;"></span>
+                        Booked
+                    </span>
+                </div>
+                <div class="row g-2 small">
+                    <!-- Simple seat grid demo -->
+                    <!-- You can generate this dynamically later -->
+                    <div class="col-1" title="Seat 1"><div class="p-2 rounded bg-success bg-opacity-75"></div></div>
+                    <div class="col-1" title="Seat 2"><div class="p-2 rounded bg-success bg-opacity-75"></div></div>
+                    <div class="col-1" title="Seat 3"><div class="p-2 rounded bg-danger bg-opacity-75"></div></div>
+                    <div class="col-1" title="Seat 4"><div class="p-2 rounded bg-success bg-opacity-75"></div></div>
+                    <div class="col-1" title="Seat 5"><div class="p-2 rounded bg-danger bg-opacity-75"></div></div>
+                    <div class="col-1" title="Seat 6"><div class="p-2 rounded bg-success bg-opacity-75"></div></div>
+                    <div class="col-1" title="Seat 7"><div class="p-2 rounded bg-success bg-opacity-75"></div></div>
+                    <div class="col-1" title="Seat 8"><div class="p-2 rounded bg-danger bg-opacity-75"></div></div>
+                    <div class="col-1" title="Seat 9"><div class="p-2 rounded bg-success bg-opacity-75"></div></div>
+                    <div class="col-1" title="Seat 10"><div class="p-2 rounded bg-success bg-opacity-75"></div></div>
+                    <!-- Add more as needed -->
+                </div>
+                <p class="small text-muted mt-3">
+                    Note: Seat layout shown for illustration. Final count and status can be managed by admin.
+                </p>
+            </div>
+
+            <!-- Registration form -->
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="form-card p-4 p-md-5">
+                    <h3 class="mb-1">Registration Form</h3>
+                    <p class="small text-muted mb-4">
+                        Fill the details below to request a seat. Our team will contact you to confirm your booking.
+                    </p>
+                    <form id="registrationForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label small fw-semibold">Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="mobile" class="form-label small fw-semibold">Mobile Number</label>
+                                <input type="tel" class="form-control" id="mobile" placeholder="Enter your mobile number" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="timeSlot" class="form-label small fw-semibold">Preferred Time Slot</label>
+                                <select id="timeSlot" class="form-select" required>
+                                    <option value="" selected disabled>Choose time slot</option>
+                                    <option value="morning">Morning (6 AM - 12 PM)</option>
+                                    <option value="day">Day (12 PM - 6 PM)</option>
+                                    <option value="evening">Evening (6 PM - 11 PM)</option>
+                                    <option value="full-day">Full Day</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="seatType" class="form-label small fw-semibold">Seat Type</label>
+                                <select id="seatType" class="form-select" required>
+                                    <option value="" selected disabled>Choose seat type</option>
+                                    <option value="premium">Premium Seat</option>
+                                    <option value="regular">Regular Seat</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label for="message" class="form-label small fw-semibold">Additional Note (Optional)</label>
+                                <textarea id="message" class="form-control" rows="3" placeholder="Any specific requirement or query"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" id="submitBtn" class="btn btn-primary w-100 py-2">
+                                    <span id="submitText">Submit Registration</span>
+                                    <span id="submitSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="small text-muted mt-3 mb-0">
+                            By submitting this form, you agree to be contacted via call or WhatsApp regarding your seat confirmation.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Contact & Location</h2>
+            <p class="section-subtitle mx-auto">
+                Visit us or call to know more about timings, fees and available seats.
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-5" data-aos="fade-right">
+                <div class="d-flex align-items-start mb-3">
+                    <div class="contact-info-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-1">Address</h6>
+                        <p class="mb-0 small">
+                            3rd Floor, Old Canara Bank Campus,<br>
+                            Kachhari Road, Hajipur (Vaishali)
+                        </p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start mb-3">
+                    <div class="contact-info-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-1">Call / WhatsApp</h6>
+                        <p class="mb-0 small">
+                            <a href="tel:+917979095257" class="link-dark text-decoration-none fw-semibold">+91 79790 95257</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="d-flex align-items-start mb-4">
+                    <div class="contact-info-icon">
+                        <i class="fa-regular fa-clock"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-1">Study Timings</h6>
+                        <p class="mb-0 small">
+                            Multiple time slots available (morning, day, evening & full‑day). Exact timing details can be confirmed over call.
+                        </p>
+                    </div>
+                </div>
+                <p class="small text-muted">
+                    Use the Google Map to navigate to our location. The library is easily accessible from major points in Hajipur.
+                </p>
+            </div>
+
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="map-wrapper">
+                    <!-- Replace src with exact place link when available -->
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3598.6800000000003!2d85.2070!3d25.6870!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sVamika%20Library%20%26%20Self%20Study%20Center!5e0!3m2!1sen!2sin!4v1700000000000"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+            <div class="small">
+                <span class="footer-brand">Vamika Library &amp; Self Study Center</span><br>
+                <span class="text-secondary">&copy; <span id="year"></span> All rights reserved.</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <a href="#" class="social-link" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Twitter">
+                    <i class="fab fa-x-twitter"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS + AOS + Custom JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    // Init AOS
+    AOS.init({
+        duration: 700,
+        once: true
+    });
+
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple mini slider (auto + manual)
+    const slides = document.querySelectorAll('.mini-slide');
+    const dots = document.querySelectorAll('.mini-dot');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        slides.forEach((s, i) => {
+            s.classList.toggle('active', i === index);
+        });
+        dots.forEach((d, i) => {
+            d.classList.toggle('active', i === index);
+        });
+        currentSlide = index;
+    }
+
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const target = parseInt(dot.getAttribute('data-target'), 10) - 1;
+            showSlide(target);
+        });
+    });
+
+    setInterval(() => {
+        const next = (currentSlide + 1) % slides.length;
+        showSlide(next);
+    }, 5000);
+
+
+    // Registration form -> Vercel API
+    const registrationForm = document.getElementById('registrationForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitSpinner = document.getElementById('submitSpinner');
+
+    registrationForm.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const payload = {
+            name: document.getElementById('name').value.trim(),
+            mobile: document.getElementById('mobile').value.trim(),
+            timeSlot: document.getElementById('timeSlot').value,
+            seatType: document.getElementById('seatType').value,
+            message: document.getElementById('message').value.trim()
+        };
+
+        if (!payload.name || !payload.mobile || !payload.timeSlot || !payload.seatType) {
+            alert('Please fill all required fields.');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitText.textContent = 'Submitting...';
+        submitSpinner.classList.remove('d-none');
+
+        try {
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.message || 'Registration failed.');
+            }
+
+            alert('Registration submitted successfully. We will contact you shortly.');
+            registrationForm.reset();
+        } catch (error) {
+            console.error(error);
+            alert(error.message || 'Something went wrong. Please try again or contact us on WhatsApp.');
+        } finally {
+            submitBtn.disabled = false;
+            submitText.textContent = 'Submit Registration';
+            submitSpinner.classList.add('d-none');
+        }
+    });
+</script>
+</body>
+</html>
