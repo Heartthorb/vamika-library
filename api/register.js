@@ -37,9 +37,16 @@ export default async function handler(req, res) {
     };
 
     // ---------- 1. Save to Supabase ----------
-    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-      throw new Error("Supabase environment variables are not configured.");
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SECRET_KEY) {
+  return res.status(500).json({
+    success: false,
+    message: "Environment variable missing",
+    debug: {
+      supabase_url: !!process.env.SUPABASE_URL,
+      supabase_secret_key: !!process.env.SUPABASE_SECRET_KEY
     }
+  });
+}
 
     const supabaseResponse = await fetch(
       `${process.env.SUPABASE_URL}/rest/v1/registrations`,
