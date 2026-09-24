@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vamika-library.vercel.app/sitemap.xml
