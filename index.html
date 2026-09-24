@@ -976,6 +976,7 @@
     }, 5000);
 
 
+ 
     // Registration form -> Vercel API
     const registrationForm = document.getElementById('registrationForm');
     const submitBtn = document.getElementById('submitBtn');
@@ -985,28 +986,18 @@
     registrationForm.addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        if (!payload.name || !payload.mobile || !payload.timeSlot || !payload.seatType) {
-            alert('Please fill all required fields.');
-            return;
-        }
-
-        const recaptchaError = document.getElementById('recaptchaError');
-        const recaptchaToken = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
-
-        if (!recaptchaToken) {
-            recaptchaError.classList.remove('d-none');
-            return;
-        }
-        recaptchaError.classList.add('d-none');
-
         const payload = {
             name: document.getElementById('name').value.trim(),
             mobile: document.getElementById('mobile').value.trim(),
             timeSlot: document.getElementById('timeSlot').value,
             seatType: document.getElementById('seatType').value,
-            message: document.getElementById('message').value.trim(),
-            recaptchaToken: recaptchaToken
+            message: document.getElementById('message').value.trim()
         };
+
+        if (!payload.name || !payload.mobile || !payload.timeSlot || !payload.seatType) {
+            alert('Please fill all required fields.');
+            return;
+        }
 
         submitBtn.disabled = true;
         submitText.textContent = 'Submitting...';
@@ -1041,7 +1032,6 @@
 
             alert('Registration submitted successfully.');
             registrationForm.reset();
-            if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
         } catch (error) {
             console.error('Registration error:', error);
             alert(error.message || 'Something went wrong. Please try again.');
