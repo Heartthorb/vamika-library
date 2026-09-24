@@ -827,6 +827,10 @@
                                 <textarea id="message" class="form-control" rows="3" placeholder="Any specific requirement or query"></textarea>
                             </div>
                             <div class="col-12">
+                                 <div class="mb-3">
+                                    <div class="g-recaptcha" data-sitekey="6Lc89vcpAAAAALx5uJ_BQ7jL9Q9OwiwdTekiuDTa"></div>
+                                    <div id="recaptchaError" class="text-danger small mt-2 d-none">Please confirm that you are not a robot.</div>
+                                </div>
                                 <button type="submit" id="submitBtn" class="btn btn-primary w-100 py-2">
                                     <span id="submitText">Submit Registration</span>
                                     <span id="submitSpinner" class="spinner-border spinner-border-sm d-none ms-2" role="status" aria-hidden="true"></span>
@@ -933,6 +937,7 @@
 </footer>
 
 <!-- Bootstrap JS + AOS + Custom JS -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <script>
@@ -973,7 +978,7 @@
     }, 5000);
 
 
-    // Registration form -> Vercel API
+   // Registration form -> Vercel API
     const registrationForm = document.getElementById('registrationForm');
     const submitBtn = document.getElementById('submitBtn');
     const submitText = document.getElementById('submitText');
@@ -987,13 +992,23 @@
             mobile: document.getElementById('mobile').value.trim(),
             timeSlot: document.getElementById('timeSlot').value,
             seatType: document.getElementById('seatType').value,
-            message: document.getElementById('message').value.trim()
+            message: document.getElementById('message').value.trim(),
+            recaptchaToken: recaptchaToken
         };
 
         if (!payload.name || !payload.mobile || !payload.timeSlot || !payload.seatType) {
             alert('Please fill all required fields.');
             return;
         }
+
+        const recaptchaError = document.getElementById('recaptchaError');
+        const recaptchaToken = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
+
+        if (!recaptchaToken) {
+            recaptchaError.classList.remove('d-none');
+            return;
+        }
+        recaptchaError.classList.add('d-none');
 
         submitBtn.disabled = true;
         submitText.textContent = 'Submitting...';
@@ -1002,21 +1017,36 @@
         try {
             const response = await fetch('/api/register', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify(payload)
             });
 
-            const result = await response.json();
+            const raw = await response.text();
+            let result = {};
+
+            try {
+                result = raw ? JSON.parse(raw) : {};
+            } catch (_) {
+                throw new Error(
+                    response.ok
+                        ? 'Server returned an invalid response.'
+                        : `Server error (${response.status}). Please try again.`
+                );
+            }
 
             if (!response.ok || !result.success) {
                 throw new Error(result.message || 'Registration failed.');
             }
 
-            alert('Registration submitted successfully. We will contact you shortly.');
+            alert('Registration submitted successfully.');
             registrationForm.reset();
+            if (typeof grecaptcha !== 'undefined') grecaptcha.reset();
         } catch (error) {
-            console.error(error);
-            alert(error.message || 'Something went wrong. Please try again or contact us on WhatsApp.');
+            console.error('Registration error:', error);
+            alert(error.message || 'Something went wrong. Please try again.');
         } finally {
             submitBtn.disabled = false;
             submitText.textContent = 'Submit Registration';
